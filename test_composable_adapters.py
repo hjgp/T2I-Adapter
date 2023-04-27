@@ -91,11 +91,14 @@ def main():
                 opt, cond_paths[cond_idx], cond_inp_types[cond_idx], cond_models[cond_idx],
             ))
         adapter_features, append_to_context = get_adapter_feature(conds, adapters)
+        i = 0
         for v_idx in range(opt.n_samples):
             result = diffusion_inference(opt, sd_model, sampler, adapter_features, append_to_context)
-            base_count = len(os.listdir(opt.outdir))
-            cv2.imwrite(os.path.join(opt.outdir, f'{base_count:05}_result.png'), tensor2img(result))
-
+            
+            output_path = f"/tmp/{i}.png"
+            cv2.imwrite(output_path, tensor2img(result))
+            
+            i += 1
 
 if __name__ == '__main__':
     main()
